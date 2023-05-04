@@ -1,0 +1,4 @@
+/* the state of the buttons before clicking the "Upload" button */
+#image-container, #btnGoTo {
+    display: none;
+}

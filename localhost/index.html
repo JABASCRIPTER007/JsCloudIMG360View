@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <!-- connect library "JQUERY" -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- connect library "js-cloudimage-360-view" -->
+    <script src="https://scaleflex.cloudimg.io/v7/plugins/js-cloudimage-360-view/latest/js-cloudimage-360-view.min.js?func=proxy"></script>
+</head>
+
+<body>
+
+<!-- form with buttons for "IMPORT PHOTO" and "UPLOAD" -->
+<form id="upload-form" enctype="multipart/form-data">
+    <input type="file" name="photo[]" multiple id="photo" >
+    <button type="submit">Upload</button>
+</form>
+
+<!-- button for initialization -->
+<button id="add360View" onclick="add360View('gurkha-suv')">Add360View</button>
+
+<!-- buttons for editing -->
+<button id="addMarker" style="display: none" onclick="addMarker">Marker Menu</button>
+
+<!-- simply iniatialize it with id "gurkha-suv", server folder path, file name and amount of images -->
+<div
+        id="gurkha-suv"
+        data-folder="http://localhost/uploads/"
+        data-filename-x="{index}.jpg"
+        data-logo=""
+        data-amount-x="65"
+        data-hide-360-logo
+        data-hotspots
+        data-play-once
+        data-current-image="0"
+        data-keys='{"left": 37, "right": 39}'>
+</div>
+
+<!-- Container for GoTo -->
+<div id="image-container">
+    <img id="image" src="./uploads/1.jpg" alt="Image">
+</div>
+
+<!-- marker menu  -->
+<div id="markerMenu">
+    <!-- position marker - from which to which frame  -->
+    <div class="placementSlide">
+        <div class="fromPos">
+            <h1>From</h1>
+            <input type="number" id="fromInput">
+        </div>
+
+        <div class="toPos">
+            <h1>To</h1>
+            <input type="number" id="toInput">
+        </div>
+    </div>
+
+    <!-- choose select Frame  -->
+    <select id="selectFrame">
+        <option value="1">1</option>
+    </select>
+
+    <!-- part by conditional display  -->
+    <div id="condDisplay">
+        <!-- position marker - height and width  -->
+        <div class="positionMarker">
+            <div class="posY">
+                <h1>Position Y</h1>
+                <input type="number" id="posYinput">
+            </div>
+
+            <div class="posX">
+                <h1>Position X</h1>
+                <input type="number" id="posXinput">
+            </div>
+
+        </div>
+
+        <h1>To which frame</h1>
+        <!-- which slide is scrolling to  -->
+        <div class="destSlideNum">
+            <input type="number" id="destSlideInput">
+        </div>
+    </div>
+</div>
+
+<!-- STYLES  -->
+<link rel="stylesheet" type="text/css" href="styles/afterClickUpload.css">
+<link rel="stylesheet" type="text/css" href="styles/createMarker.css">
+<link rel="stylesheet" type="text/css" href="styles/containerGoTo.css">
+<link rel="stylesheet" type="text/css" href="styles/hotspot-popup.css">
+
+<!-- SCRIPTS  -->
+<script src="/script/js/checkLengthIMG.js"></script>
+<script src="/script/js/markerMenu/btnAddMarker.js"></script>
+<script src="/script/js/add360View.js"></script>
+<script src="script/js/goTo.js"></script>
+<script src="/script/js/upload.js"></script>
+<script src="/script/js/hotspots.js"></script>
+
+</body>
+
+</html>
