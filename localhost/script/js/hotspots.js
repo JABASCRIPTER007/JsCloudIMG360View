@@ -21,7 +21,6 @@ function updateHotspot() {
     const fromInputValue = Number(fromInput.value);
     const toInputValue = Number(toInput.value);
 
-
     GURKHA_SUV_HOTSPOTS_CONFIG[0].positions.forEach((position, index) => {
         //iteration for add new update in "imageIndex"
         if (index >= fromInputValue - 1 && index <= toInputValue - 1) {
@@ -29,7 +28,6 @@ function updateHotspot() {
         } else {
             position.imageIndex = 0;
         }
-
         //add new update in "xCoord" and "yCoord"
         position.xCoord = toValueX;
         position.yCoord = fromValueY;
