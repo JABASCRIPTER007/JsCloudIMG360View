@@ -3,7 +3,6 @@ function add360View(viewId) {
     const new360View = document.getElementById(viewId);
     new360View.classList.add("cloudimage-360");
     window.CI360.addHotspots("gurkha-suv", GURKHA_SUV_HOTSPOTS_CONFIG);
-    window.CI360.getActiveIndexByID();
 
     //assignment of variables to element IDs
     const uploadForm = document.getElementById("upload-form");
