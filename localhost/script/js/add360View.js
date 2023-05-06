@@ -8,7 +8,6 @@ function add360View(viewId) {
     const uploadForm = document.getElementById("upload-form");
     const add360View = document.getElementById("add360View");
     const addMarker = document.getElementById("addMarker");
-    const btnGoTo = document.getElementById("btnGoTo");
 
     //changing styles of HTML elements
     uploadForm.style.display = "none";
