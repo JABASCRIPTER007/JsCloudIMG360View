@@ -25,7 +25,7 @@ function handleClick(event) {
         // Initialize a counter variable with a value of 0
         var counter = 0;
 
-        function press() {
+   function press() {
             // Create a new KeyboardEvent object with the 'keydown' type and a keyCode of 37 (left arrow)
             var event = new KeyboardEvent('keydown', {'keyCode': 37});
             document.dispatchEvent(event);
