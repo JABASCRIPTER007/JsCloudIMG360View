@@ -29,13 +29,15 @@ function handleClick(event) {
             // Create a new KeyboardEvent object with the 'keydown' type and a keyCode of 37 (left arrow)
             var event = new KeyboardEvent('keydown', {'keyCode': 37});
             document.dispatchEvent(event);
-            counter++;
 
-            // If the counter variable is less than the number specified in the inputValue variable, call the press function again after a delay of 50 milliseconds using setTimeout
-            if (counter < Number(inputValue)) {
+            var activeIndex = window.CI360.getActiveIndexByID('gurkha-suv');
+
+            // If the activeIndex is less than the number specified in the inputValue variable, call the press function again after a delay of 50 milliseconds using setTimeout
+            if (activeIndex < Number(inputValue)) {
                 setTimeout(press, 50);
             }
         }
+        
         press();
     }
     goTo();
