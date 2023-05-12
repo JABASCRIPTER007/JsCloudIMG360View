@@ -22,25 +22,28 @@ function handleClick(event) {
 
     // This function performs a series of keydown events for the left arrow key based on the value specified in the inputValue variable
     function goTo() {
-        // Initialize a counter variable with a value of 0
         var counter = 0;
 
         function press() {
             var event = new KeyboardEvent('keydown', {'keyCode': 37});
-            document.dispatchEvent(event);
-
             var activeIndex = window.CI360.getActiveIndexByID('gurkha-suv');
 
             if (activeIndex < Number(inputValue)) {
-                setTimeout(press, 50);
-                //if activeIndex > Number(InputValue)
+                event = new KeyboardEvent('keydown', {'keyCode': 37});
             } else if (activeIndex > Number(inputValue)) {
-                alert(`Iteration to - ${Number(inputValue)}` + ` Active frame - ${activeIndex}`);
+                event = new KeyboardEvent('keydown', {'keyCode': 39});
+            }
+
+            document.dispatchEvent(event);
+
+            if (activeIndex !== Number(inputValue)) {
+                setTimeout(press, 50);
             }
         }
 
         press();
     }
+
     goTo();
 }
 // This interval checks for the presence of the hotspotIcon element every 1 second and calls the addClickHandler function.
