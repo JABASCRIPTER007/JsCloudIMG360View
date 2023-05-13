@@ -1,5 +1,6 @@
 // Get the value of the "data-folder" attribute and save it in the folderUrl variable
 const folderUrl = document.getElementById("gurkha-suv").getAttribute("data-folder");
+let amount = 0;
 
 // Send a request to the server using the folderUrl value
 fetch(folderUrl)
@@ -17,7 +18,7 @@ fetch(folderUrl)
         const images = htmlDocument.querySelectorAll('a[href$=".jpg"], a[href$=".jpeg"], a[href$=".png"], a[href$=".gif"]');
 
         // Get the number of images found
-        const amount = images.length;
+        amount = images.length;
 
         // Set the value of the "data-amount-x" attribute to the number of images found
         document.getElementById("gurkha-suv").setAttribute("data-amount-x", amount.toString());
@@ -36,6 +37,7 @@ fetch(folderUrl)
             uploadForm.style.display = "block";
             add360View.style.display = "none";
         }
+
     })
     // Handle errors and log them to the console
     .catch(error => console.error(error));
