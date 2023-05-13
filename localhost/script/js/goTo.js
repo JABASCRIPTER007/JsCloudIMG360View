@@ -16,7 +16,7 @@ fetch(folderUrl)
         const images = htmlDocument.querySelectorAll('a[href$=".jpg"], a[href$=".jpeg"], a[href$=".png"], a[href$=".gif"]');
 
         // Get the number of images found
-        amount = images.length;
+        amount = images.length - 1;
     })
     // Handle errors and log them to the console
     .catch(error => console.error(error));
