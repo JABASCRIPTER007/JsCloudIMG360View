@@ -1,12 +1,6 @@
 // initialize the flag variable
 let isExecuting = false;
 
-//initializing a global variable for the value of the number of frames
-let amount = 0;
-
-//getting the attribute value
-const folderUrl = document.getElementById("gurkha-suv").getAttribute("data-folder");
-
 // Send a request to the server using the folderUrl value
 fetch(folderUrl)
     // Process the server response as text
