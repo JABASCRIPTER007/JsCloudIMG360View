@@ -50,8 +50,16 @@ function handleClick(event) {
         inputValue = event.target.value;
     });
 
+    let numInputValue = Number(inputValue);
+    if (isNaN(numInputValue)) {
+        alert("Input value must be a number!");
+        // reset the flag to false
+        isExecuting = false;
+        return;
+    }
+
     // Check if amount is less than the inputValue before executing goTo()
-    if (amount < Number(inputValue)) {
+    if (amount < numInputValue) {
         alert("Amount must be less than the input value!");
 
         // reset the flag to false
@@ -59,7 +67,7 @@ function handleClick(event) {
 
         // exit the function without performing any action
         return;
-    }else if(Number(inputValue) < 0) {
+    }else if(numInputValue < 0) {
         alert("inputValue < 0");
         // reset the flag to false
         isExecuting = false;
@@ -68,28 +76,28 @@ function handleClick(event) {
 
     // This function performs a series of keydown events for the left arrow key based on the value specified in the inputValue variable
     function goTo() {
-        var counter = 0;
+        var counter = 1;
 
         function press() {
             var event = new KeyboardEvent('keydown', {'keyCode': 37});
             var activeIndex = window.CI360.getActiveIndexByID('gurkha-suv');
 
-            if (activeIndex === Number(inputValue)) {
+            if (activeIndex === numInputValue - 1) {
 
                 // reset the flag to false
                 isExecuting = false;
 
                 // exit the function without performing any action
                 return;
-            } else if (activeIndex < Number(inputValue)) {
+            } else if (activeIndex < numInputValue) {
                 event = new KeyboardEvent('keydown', {'keyCode': 37});
-            } else if (activeIndex > Number(inputValue)) {
+            } else if (activeIndex > numInputValue) {
                 event = new KeyboardEvent('keydown', {'keyCode': 39});
             }
 
             document.dispatchEvent(event);
 
-            if (activeIndex !== Number(inputValue)) {
+            if (activeIndex !== numInputValue) {
                 setTimeout(press, 50);
             }else {
                 // reset the flag to false
