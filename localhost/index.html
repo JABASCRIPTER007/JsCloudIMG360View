@@ -7,11 +7,10 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- connect library "js-cloudimage-360-view" -->
-    <script src="https://scaleflex.cloudimg.io/v7/plugins/js-cloudimage-360-view/latest/js-cloudimage-360-view.min.js?func=proxy"></script>
+    <script src="library/js-cloudimage-360-view/build/js-cloudimage-360-view.min.js"></script>
 </head>
 
 <body>
-
 <!-- form with buttons for "IMPORT PHOTO" and "UPLOAD" -->
 <form id="upload-form" enctype="multipart/form-data">
     <input type="file" name="photo[]" multiple id="photo" >
@@ -30,8 +29,7 @@
         data-folder="http://localhost/uploads/"
         data-filename-x="{index}.jpg"
         data-hide-360-logo
-        data-hotspots
-        data-keys='{"left": 37, "right": 39}'>
+        data-hotspots>
 </div>
 
 <!-- marker menu  -->
@@ -86,12 +84,11 @@
 
 <!-- SCRIPTS  -->
 <script src="/script/js/checkLengthIMG.js"></script>
+<script src="script/js/goTo.js"></script>
 <script src="/script/js/markerMenu/btnAddMarker.js"></script>
 <script src="/script/js/add360View.js"></script>
-<script src="script/js/goTo.js"></script>
 <script src="/script/js/upload.js"></script>
 <script src="/script/js/hotspots.js"></script>
 
 </body>
-
 </html>
