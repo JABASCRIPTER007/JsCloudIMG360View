@@ -1,9 +1,9 @@
-// initialize the flag variable
+// Initialize the flag variable
 let isExecuting = false;
+let isGoToInProgress = false;
 
 // Send a request to the server using the folderUrl value
 fetch(folderUrl)
-    // Process the server response as text
     .then(response => response.text())
     .then(html => {
         // Create a new DOMParser object
@@ -18,10 +18,8 @@ fetch(folderUrl)
         // Get the number of images found
         amount = images.length - 1;
     })
-    // Handle errors and log them to the console
     .catch(error => console.error(error));
 
-// If the element is found, the handleClick function is called, and an intervalId is cleared.
 function addClickHandler() {
     const hotspotIcon = document.querySelector('.cloudimage-360-hotspot-custom-icon');
     if (hotspotIcon) {
@@ -30,13 +28,13 @@ function addClickHandler() {
     }
 }
 
-// This function handles the click event on the hotspotIcon element.
 function handleClick(event) {
-    if (isExecuting) {
-        // exit the function if it's already executing
+    if (isExecuting || isGoToInProgress) {
+        // Exit the function if it's already executing or goTo() is in progress
         return;
     }
-    // set the flag to true
+
+    // Set the flag to true
     isExecuting = true;
 
     // Get the input element with id 'destSlideInput' and assign it to the variable destSlideInput
@@ -45,70 +43,69 @@ function handleClick(event) {
     // Get the value of the destSlideInput element and assign it to the variable inputValue
     let inputValue = destSlideInput.value;
 
-    // Add an event listener to the destSlideInput element that listens for input events and updates the inputValue variable with the new value of the input element
-    destSlideInput.addEventListener('input', function (event) {
-        inputValue = event.target.value;
-    });
-
     let numInputValue = Number(inputValue);
+
     if (isNaN(numInputValue)) {
         alert("Input value must be a number!");
-        // reset the flag to false
+        // Reset the flags to false
         isExecuting = false;
         return;
     }
 
-    // Check if amount is less than the inputValue before executing goTo()
     if (amount < numInputValue) {
         alert("Amount must be less than the input value!");
-
-        // reset the flag to false
+        // Reset the flags to false
         isExecuting = false;
-
-        // exit the function without performing any action
         return;
-    }else if(numInputValue < 0) {
+    } else if (numInputValue < 0) {
         alert("inputValue < 0");
-        // reset the flag to false
+        // Reset the flags to false
         isExecuting = false;
         return;
     }
 
-    // This function performs a series of keydown events for the left arrow key based on the value specified in the inputValue variable
-    function goTo() {
-        var counter = 1;
+    // Get the initial value from input
+    targetIndex = numInputValue;
 
-        function press() {
-            var event = new KeyboardEvent('keydown', {'keyCode': 37});
-            var activeIndex = window.CI360.getActiveIndexByID('gurkha-suv');
+    // Indicate that the goTo() function is executing
+    isGoToInProgress = true;
 
-            if (activeIndex === numInputValue - 1) {
-
-                // reset the flag to false
-                isExecuting = false;
-
-                // exit the function without performing any action
-                return;
-            } else if (activeIndex < numInputValue) {
-                event = new KeyboardEvent('keydown', {'keyCode': 37});
-            } else if (activeIndex > numInputValue) {
-                event = new KeyboardEvent('keydown', {'keyCode': 39});
-            }
-
-            document.dispatchEvent(event);
-
-            if (activeIndex !== numInputValue) {
-                setTimeout(press, 50);
-            }else {
-                // reset the flag to false
-                isExecuting = false;
-            }
-        }
-
-        press();
-    }
-    goTo();
+    goTo(() => {
+        // Reset the flags to false after the function has completed
+        isExecuting = false;
+        isGoToInProgress = false;
+    });
 }
 
-// This interval checks for the presence of the hotspotIcon element every 1 second and calls the addClickHandler function.
+function goTo(callback) {
+    let activeIndex = window.CI360.getActiveIndexByID('gurkha-suv');
+    if (activeIndex === targetIndex) {
+        // Exit the function without performing additional actions
+        callback();
+        return;
+    }
+
+    // Determine the iteration direction
+    let direction = activeIndex < targetIndex ? 1 : -1;
+
+    let myIntervalId = setInterval(() => {
+        // Get the first viewer instance
+        const viewer = window.CI360._viewers[0];
+
+        // Change the value of the activeImageX property according to the direction
+        viewer.activeImageX += direction;
+
+        // Call the update method to refresh the image display
+        viewer.update();
+
+        if (direction > 0 && viewer.activeImageX >= targetIndex) {
+            clearInterval(myIntervalId);
+            callback();
+        } else if (direction < 0 && viewer.activeImageX <= targetIndex) {
+            clearInterval(myIntervalId);
+            callback();
+        }
+    }, 50);
+}
+
 const intervalId = setInterval(addClickHandler, 1000);
