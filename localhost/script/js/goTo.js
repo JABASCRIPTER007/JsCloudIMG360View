@@ -1,21 +1,16 @@
-// Initialize the flag variable
-let isExecuting = false; // Flag to track if a function is currently executing
-let isGoToInProgress = false; // Flag to track if the goTo() function is in progress
+// Flag to track if a function is currently executing
+let isExecuting = false;
+
+// Flag to track if the goTo() function is in progress
+let isGoToInProgress = false;
 
 // Send a request to the server using the folderUrl value
 fetch(folderUrl)
     .then(response => response.text())
     .then(html => {
-        // Create a new DOMParser object
         const parser = new DOMParser();
-
-        // Parse the HTML string into a DOM document
         const htmlDocument = parser.parseFromString(html, "text/html");
-
-        // Find all image links in the DOM document
         const images = htmlDocument.querySelectorAll('a[href$=".jpg"], a[href$=".jpeg"], a[href$=".png"], a[href$=".gif"]');
-
-        // Get the number of images found
         amount = images.length;
     })
     .catch(error => console.error(error));
@@ -25,9 +20,11 @@ function addClickHandler() {
     if (hotspotIcon) {
         // Add click event listener to the hotspot icon
         hotspotIcon.addEventListener('click', handleClick);
-        clearInterval(intervalId); // Stop the interval
+        // Stop the interval
+        clearInterval(intervalId);
     }
 }
+
 function handleClick(event) {
     if (isExecuting || isGoToInProgress) {
         // Exit the function if another function is currently executing or goTo() is in progress
@@ -36,10 +33,10 @@ function handleClick(event) {
     // Set the flag to true
     isExecuting = true;
 
-    // Get the input element with id 'destSlideInput' and assign it to the variable destSlideInput
+    // Get the input element
     const destSlideInput = document.getElementById('destSlideInput');
 
-    // Get the value of the destSlideInput element and assign it to the variable inputValue
+    // Get the value of the input element
     let inputValue = destSlideInput.value;
 
     let numInputValue = Number(inputValue);
@@ -52,23 +49,18 @@ function handleClick(event) {
         isExecuting = false;
         return;
     }
-    if (amount < numInputValue) {
-        // Show an alert if the amount is less than the input value
-        alert("Amount must be less than the input value!");
+    if (amount < numInputValue || numInputValue < 0) {
+        let message = amount < numInputValue ? "Amount must be less than the input value!" : "Input value cannot be less than 0!";
 
-        // Reset the flags to false
-        isExecuting = false;
-        return;
-    } else if (numInputValue < 0) {
-        // Show an alert if the input value is less than 0
-        alert("Input value cannot be less than 0!");
+        // Show an alert based on the condition
+        alert(message);
 
         // Reset the flags to false
         isExecuting = false;
         return;
     }
     // Get the initial value from input
-    targetIndex = numInputValue >= 0 ? numInputValue : 0;
+    targetIndex = Math.max(numInputValue, 0);
 
     // Indicate that the goTo() function is executing
     isGoToInProgress = true;
@@ -100,10 +92,7 @@ function goTo(callback) {
         // Call the update method to refresh the image display
         viewer.update();
 
-        if (direction > 0 && viewer.activeImageX >= targetIndex) {
-            clearInterval(myIntervalId);
-            callback();
-        } else if (direction < 0 && viewer.activeImageX <= targetIndex) {
+        if ((direction > 0 && viewer.activeImageX >= targetIndex) || (direction < 0 && viewer.activeImageX <= targetIndex)) {
             clearInterval(myIntervalId);
             callback();
         }
