@@ -1,6 +1,6 @@
 // Initialize the flag variable
-let isExecuting = false;
-let isGoToInProgress = false;
+let isExecuting = false; // Flag to track if a function is currently executing
+let isGoToInProgress = false; // Flag to track if the goTo() function is in progress
 
 // Send a request to the server using the folderUrl value
 fetch(folderUrl)
@@ -19,21 +19,20 @@ fetch(folderUrl)
         amount = images.length - 1;
     })
     .catch(error => console.error(error));
-
 function addClickHandler() {
     const hotspotIcon = document.querySelector('.cloudimage-360-hotspot-custom-icon');
     if (hotspotIcon) {
+        // Add click event listener to the hotspot icon
         hotspotIcon.addEventListener('click', handleClick);
-        clearInterval(intervalId);
+        clearInterval(intervalId); // Stop the interval
     }
 }
 
 function handleClick(event) {
     if (isExecuting || isGoToInProgress) {
-        // Exit the function if it's already executing or goTo() is in progress
+    // Exit the function if another function is currently executing or goTo() is in progress
         return;
     }
-
     // Set the flag to true
     isExecuting = true;
 
@@ -46,6 +45,7 @@ function handleClick(event) {
     let numInputValue = Number(inputValue);
 
     if (isNaN(numInputValue)) {
+        // Show an alert if the input value is not a number
         alert("Input value must be a number!");
         // Reset the flags to false
         isExecuting = false;
@@ -53,17 +53,19 @@ function handleClick(event) {
     }
 
     if (amount < numInputValue) {
+        // Show an alert if the amount is less than the input value
         alert("Amount must be less than the input value!");
         // Reset the flags to false
         isExecuting = false;
         return;
     } else if (numInputValue < 0) {
+        // Show an alert if the input value is less than 0
         alert("inputValue < 0");
+
         // Reset the flags to false
         isExecuting = false;
         return;
     }
-
     // Get the initial value from input
     targetIndex = numInputValue;
 
@@ -84,7 +86,6 @@ function goTo(callback) {
         callback();
         return;
     }
-
     // Determine the iteration direction
     let direction = activeIndex < targetIndex ? 1 : -1;
 
@@ -108,4 +109,5 @@ function goTo(callback) {
     }, 50);
 }
 
+// Set interval to call addClickHandler function every 1 second
 const intervalId = setInterval(addClickHandler, 1000);
