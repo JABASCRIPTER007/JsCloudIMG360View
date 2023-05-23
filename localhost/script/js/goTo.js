@@ -28,7 +28,6 @@ function addClickHandler() {
         clearInterval(intervalId); // Stop the interval
     }
 }
-
 function handleClick(event) {
     if (isExecuting || isGoToInProgress) {
         // Exit the function if another function is currently executing or goTo() is in progress
@@ -45,6 +44,29 @@ function handleClick(event) {
 
     let numInputValue = Number(inputValue);
 
+    if (isNaN(numInputValue)) {
+        // Show an alert if the input value is not a number
+        alert("Input value must be a number!");
+
+        // Reset the flags to false
+        isExecuting = false;
+        return;
+    }
+    if (amount < numInputValue) {
+        // Show an alert if the amount is less than the input value
+        alert("Amount must be less than the input value!");
+
+        // Reset the flags to false
+        isExecuting = false;
+        return;
+    } else if (numInputValue < 0) {
+        // Show an alert if the input value is less than 0
+        alert("Input value cannot be less than 0!");
+
+        // Reset the flags to false
+        isExecuting = false;
+        return;
+    }
     // Get the initial value from input
     targetIndex = numInputValue >= 0 ? numInputValue : 0;
 
