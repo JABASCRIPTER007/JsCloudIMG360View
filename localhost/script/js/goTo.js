@@ -16,9 +16,10 @@ fetch(folderUrl)
         const images = htmlDocument.querySelectorAll('a[href$=".jpg"], a[href$=".jpeg"], a[href$=".png"], a[href$=".gif"]');
 
         // Get the number of images found
-        amount = images.length - 1;
+        amount = images.length;
     })
     .catch(error => console.error(error));
+
 function addClickHandler() {
     const hotspotIcon = document.querySelector('.cloudimage-360-hotspot-custom-icon');
     if (hotspotIcon) {
@@ -30,7 +31,7 @@ function addClickHandler() {
 
 function handleClick(event) {
     if (isExecuting || isGoToInProgress) {
-    // Exit the function if another function is currently executing or goTo() is in progress
+        // Exit the function if another function is currently executing or goTo() is in progress
         return;
     }
     // Set the flag to true
@@ -44,30 +45,8 @@ function handleClick(event) {
 
     let numInputValue = Number(inputValue);
 
-    if (isNaN(numInputValue)) {
-        // Show an alert if the input value is not a number
-        alert("Input value must be a number!");
-        // Reset the flags to false
-        isExecuting = false;
-        return;
-    }
-
-    if (amount < numInputValue) {
-        // Show an alert if the amount is less than the input value
-        alert("Amount must be less than the input value!");
-        // Reset the flags to false
-        isExecuting = false;
-        return;
-    } else if (numInputValue < 0) {
-        // Show an alert if the input value is less than 0
-        alert("inputValue < 0");
-
-        // Reset the flags to false
-        isExecuting = false;
-        return;
-    }
     // Get the initial value from input
-    targetIndex = numInputValue;
+    targetIndex = numInputValue >= 0 ? numInputValue : 0;
 
     // Indicate that the goTo() function is executing
     isGoToInProgress = true;
