@@ -11,7 +11,7 @@ fetch(folderUrl)
         const parser = new DOMParser();
         const htmlDocument = parser.parseFromString(html, "text/html");
         const images = htmlDocument.querySelectorAll('a[href$=".jpg"], a[href$=".jpeg"], a[href$=".png"], a[href$=".gif"]');
-        amount = images.length - 1;
+        amount = images.length;
     })
     .catch(error => console.error(error));
 
