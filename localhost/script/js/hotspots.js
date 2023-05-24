@@ -11,7 +11,7 @@ fetch(folderUrl)
         const parser = new DOMParser();
         const htmlDocument = parser.parseFromString(html, "text/html");
         const images = htmlDocument.querySelectorAll('a[href$=".jpg"], a[href$=".jpeg"], a[href$=".png"], a[href$=".gif"]');
-        const amount = images.length;
+        const amount = images.length + 2;
 
         GURKHA_SUV_HOTSPOTS_CONFIG[0].positions = Array.from({ length: amount }, () => ({
             imageIndex: 0,
