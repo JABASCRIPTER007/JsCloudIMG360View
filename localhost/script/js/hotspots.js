@@ -4,6 +4,13 @@ const posXinput = document.getElementById("posXinput");
 const fromInput = document.getElementById("fromInput");
 const toInput = document.getElementById("toInput");
 
+// Configuration object for GURKHA_SUV_HOTSPOTS_CONFIG
+const GURKHA_SUV_HOTSPOTS_CONFIG = [
+    {
+        positions: []
+    }
+];
+
 // Sending a request to the server using the folderUrl value
 fetch(folderUrl)
     .then(response => response.text())
@@ -34,21 +41,16 @@ function updateHotspot() {
     const toInputValue = Number(toInput.value);
 
     GURKHA_SUV_HOTSPOTS_CONFIG[0].positions.forEach((position, index) => {
-        position.imageIndex = (index >= fromInputValue && index <= toInputValue) ? (index > 0 ? index - 1 : 0) : 0;
+        if (index >= fromInputValue && index <= toInputValue) {
+            position.imageIndex = index > 0 ? index - 1 : 0;
+        } else if (index === toInputValue + 1) {
+            position.imageIndex = toInputValue;
+        } else {
+            position.imageIndex = 0;
+        }
         position.xCoord = toValueX;
         position.yCoord = fromValueY;
     });
 
     window.CI360.addHotspots("gurkha-suv", GURKHA_SUV_HOTSPOTS_CONFIG);
 }
-
-// Configuration object for GURKHA_SUV_HOTSPOTS_CONFIG
-const GURKHA_SUV_HOTSPOTS_CONFIG = [
-    {
-        positions: Array.from({ length: 100 }, () => ({
-            imageIndex: 0,
-            xCoord: Number(posXinput.value),
-            yCoord: Number(posYinput.value)
-        }))
-    }
-];
