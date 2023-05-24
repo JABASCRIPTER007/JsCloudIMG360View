@@ -17,7 +17,7 @@ fetch(folderUrl)
         const images = htmlDocument.querySelectorAll('a[href$=".jpg"], a[href$=".jpeg"], a[href$=".png"], a[href$=".gif"]');
 
         // Get the number of images found
-        amount = images.length - 1;
+        amount = images.length;
 
         // Set the value of the "data-amount-x" attribute to the number of images found
         document.getElementById("gurkha-suv").setAttribute("data-amount-x", amount.toString());
