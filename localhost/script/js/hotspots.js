@@ -25,6 +25,9 @@ fetch(folderUrl)
             xCoord: Number(posXinput.value),
             yCoord: Number(posYinput.value)
         }));
+
+        // Call the updateHotspot() function here, after the fetch request is completed
+        updateHotspot();
     })
     .catch(error => console.error(error));
 
