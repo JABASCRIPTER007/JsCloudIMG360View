@@ -74,7 +74,7 @@ function handleClick(event) {
 
 function goTo(callback) {
     let activeIndex = window.CI360.getActiveIndexByID('gurkha-suv');
-    if (activeIndex === targetIndex) {
+    if (activeIndex === targetIndex - 1) {
         // Exit the function without performing additional actions
         callback();
         return;
