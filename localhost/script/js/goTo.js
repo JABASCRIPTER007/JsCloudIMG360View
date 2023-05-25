@@ -84,12 +84,11 @@ function handleClick(event) {
 
 function goTo(callback) {
     let activeIndex = window.CI360.getActiveIndexByID('gurkha-suv');
-    if (activeIndex === targetIndex - 1 || (activeIndex === -1 && targetIndex !== 0)) {
+    if (activeIndex === targetIndex || (activeIndex === -1 && targetIndex !== 0)) {
         // Exit the function without performing additional actions
         callback();
         return;
     }
-
     // Determine the iteration direction
     let direction = activeIndex < targetIndex ? 1 : -1;
 
@@ -109,7 +108,6 @@ function goTo(callback) {
         // If targetIndex is greater than activeIndex, choose the direction with fewer iterations
         finalDirection = (incrementalIterations <= decrementalIterations) ? 1 : -1;
     }
-
     let myIntervalId = setInterval(() => {
         // Get the first viewer instance
         const viewer = window.CI360._viewers[0];
@@ -117,19 +115,18 @@ function goTo(callback) {
         if (viewer.activeImageX === targetIndex) {
             clearInterval(myIntervalId);
             callback();
-        } else if (finalDirection === 1 && viewer.activeImageX === amount - 1) {
+        } else if (finalDirection === 1 && viewer.activeImageX === amount) {
             // If in the incremental direction, the last frame is reached without reaching the target value,
             // reset the activeImageX to 0 and continue iterating towards the target value
             viewer.activeImageX = 0;
         } else if (finalDirection === -1 && viewer.activeImageX === 0) {
             // If in the decremental direction, the first frame is reached without reaching the target value,
             // set the activeImageX to the last frame and continue iterating towards the target value
-            viewer.activeImageX = amount - 1;
+            viewer.activeImageX = amount;
         } else {
             // Change the value of the activeImageX property according to the final direction
             viewer.activeImageX += finalDirection;
         }
-
         // Call the update method to refresh the image display
         viewer.update();
     }, 50);
