@@ -62,6 +62,16 @@ function handleClick(event) {
     // Get the initial value from input
     targetIndex = Math.max(numInputValue, 0);
 
+    // Check if targetIndex is 0
+    if (targetIndex === 0) {
+        // Show an alert if targetIndex is 0
+        alert("toWhichFrame != 0");
+
+        // Reset the flags to false
+        isExecuting = false;
+        return;
+    }
+
     // Indicate that the goTo() function is executing
     isGoToInProgress = true;
 
@@ -74,28 +84,54 @@ function handleClick(event) {
 
 function goTo(callback) {
     let activeIndex = window.CI360.getActiveIndexByID('gurkha-suv');
-    if (activeIndex === targetIndex - 1) {
+    if (activeIndex === targetIndex - 1 || (activeIndex === -1 && targetIndex !== 0)) {
         // Exit the function without performing additional actions
         callback();
         return;
     }
+
     // Determine the iteration direction
     let direction = activeIndex < targetIndex ? 1 : -1;
+
+    // Calculate the number of iterations in the incremental direction
+    let incrementalIterations = (direction > 0) ? (targetIndex - activeIndex) : (amount - activeIndex + targetIndex);
+
+    // Calculate the number of iterations in the decremental direction
+    let decrementalIterations = (direction < 0) ? (activeIndex - targetIndex) : (activeIndex + amount - targetIndex);
+
+    // Determine the final direction based on the number of iterations
+    let finalDirection;
+
+    if (targetIndex < activeIndex) {
+        // If targetIndex is less than activeIndex, choose the direction with fewer iterations
+        finalDirection = (decrementalIterations <= incrementalIterations) ? -1 : 1;
+    } else {
+        // If targetIndex is greater than activeIndex, choose the direction with fewer iterations
+        finalDirection = (incrementalIterations <= decrementalIterations) ? 1 : -1;
+    }
 
     let myIntervalId = setInterval(() => {
         // Get the first viewer instance
         const viewer = window.CI360._viewers[0];
 
-        // Change the value of the activeImageX property according to the direction
-        viewer.activeImageX += direction;
+        if (viewer.activeImageX === targetIndex) {
+            clearInterval(myIntervalId);
+            callback();
+        } else if (finalDirection === 1 && viewer.activeImageX === amount - 1) {
+            // If in the incremental direction, the last frame is reached without reaching the target value,
+            // reset the activeImageX to 0 and continue iterating towards the target value
+            viewer.activeImageX = 0;
+        } else if (finalDirection === -1 && viewer.activeImageX === 0) {
+            // If in the decremental direction, the first frame is reached without reaching the target value,
+            // set the activeImageX to the last frame and continue iterating towards the target value
+            viewer.activeImageX = amount - 1;
+        } else {
+            // Change the value of the activeImageX property according to the final direction
+            viewer.activeImageX += finalDirection;
+        }
 
         // Call the update method to refresh the image display
         viewer.update();
-
-        if ((direction > 0 && viewer.activeImageX >= targetIndex) || (direction < 0 && viewer.activeImageX <= targetIndex)) {
-            clearInterval(myIntervalId);
-            callback();
-        }
     }, 50);
 }
 
