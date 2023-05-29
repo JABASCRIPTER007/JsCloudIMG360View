@@ -40,7 +40,7 @@ function handleClick(event) {
     let inputValue = destSlideInput.value;
 
     let numInputValue = Number(inputValue);
-    
+
     if (amount < numInputValue || numInputValue < 0) {
         let message = amount < numInputValue ? "Amount must be less than the input value!" : "Input value cannot be less than 0!";
 
@@ -102,7 +102,7 @@ function goTo(callback) {
     }
     let myIntervalId = setInterval(() => {
         // Get the first viewer instance
-        const viewer = window.CI360._viewers[0];
+        const viewer = CI360.view();
 
         if (viewer.activeImageX === targetIndex) {
             clearInterval(myIntervalId);
