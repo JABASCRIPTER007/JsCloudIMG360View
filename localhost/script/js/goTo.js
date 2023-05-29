@@ -40,15 +40,7 @@ function handleClick(event) {
     let inputValue = destSlideInput.value;
 
     let numInputValue = Number(inputValue);
-
-    if (isNaN(numInputValue)) {
-        // Show an alert if the input value is not a number
-        alert("Input value must be a number!");
-
-        // Reset the flags to false
-        isExecuting = false;
-        return;
-    }
+    
     if (amount < numInputValue || numInputValue < 0) {
         let message = amount < numInputValue ? "Amount must be less than the input value!" : "Input value cannot be less than 0!";
 
@@ -131,6 +123,5 @@ function goTo(callback) {
         viewer.update();
     }, 50);
 }
-
 // Set interval to call addClickHandler function every 1 second
 const intervalId = setInterval(addClickHandler, 1000);
